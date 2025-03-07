@@ -1,0 +1,35 @@
+services:
+  proxy:
+    build: ./proxy
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./proxy/:/app/
+    ports:
+      - 8002:8000
+  auth:
+    build: ./auth
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./auth/:/app/
+    ports:
+      - 8001:8000
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://movie_db_username:movie_db_password@movie_db/movie_db_dev
+      # - CAST_SERVICE_HOST_URL=http://cast_service:8000/api/v1/casts/
+    depends_on:
+      - movie_db
+
+  movie_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - postgres_data_users:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=movie_db_username
+      - POSTGRES_PASSWORD=movie_db_password
+      - POSTGRES_DB=movie_db_dev
+    ports:
+      - "13500:5432"
+
+volumes:
+  postgres_data_users:
+  # postgres_data_cast:
