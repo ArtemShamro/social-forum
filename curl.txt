@@ -1,0 +1,38 @@
+REGISTER USER:
+curl --location 'http://0.0.0.0:8002/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "login": "User1",
+  "password": "pass1",
+  "mail": "User1@mail.ru"
+}'
+
+LOGIN USER:
+curl --location 'http://0.0.0.0:8002/login' \
+--header 'Content-Type: application/json' \
+--data '{
+  "login": "User1",
+  "password": "pass1"
+}'
+
+GET USER INFO:
+curl --location 'http://0.0.0.0:8002/me' \
+--header 'Cookie: users_access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzQ0Mjc5OTU1fQ.lRqqcl88irdCu-mLeyRdco-Bi14JzgEJZKRI9jPSDiw' \
+--data ''
+
+UPDATE USER INFO:
+curl --location 'http://0.0.0.0:8002/update' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: users_access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzQ0Mjc5OTU1fQ.lRqqcl88irdCu-mLeyRdco-Bi14JzgEJZKRI9jPSDiw' \
+--data-raw '{
+  "name": "Name1",
+  "surname": "Surname1",
+  "birthdate": "2000-01-01",
+  "mail": "name1@mail.ru",
+  "phone": "+01234567890"
+}'
+
+LOGOUT USER:
+curl --location --request POST 'http://0.0.0.0:8002/logout' \
+--header 'Cookie: users_access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzQ0Mjc5OTU1fQ.lRqqcl88irdCu-mLeyRdco-Bi14JzgEJZKRI9jPSDiw' \
+--data ''
