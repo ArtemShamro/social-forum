@@ -8,16 +8,13 @@ class UserType(str, Enum):
     client = "Клиент"
     business = "Бизнес"
 
-class User(BaseModel):
+class UserUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50, description="Имя, от 1 до 50 символов")
     surname: Optional[str] = Field(None, min_length=1, max_length=50, description="Фамилия, от 1 до 50 символов")
     birthdate: Optional[date] = Field(None, description="Дата рождения в формате ГГГГ-ММ-ДД")
-    mail: EmailStr = Field(default=..., description="Электронная почта")
-    # ADD Validation
+    mail: EmailStr = Field(None, description="Электронная почта")
     phone: Optional[str] = Field(None, description="Номер телефона в международном формате, начинающийся с '+'")
-    created_at: datetime
-    updated_at: datetime
-
+    
     model_config = ConfigDict(from_attributes=True)
 
     @field_validator("phone")
@@ -33,13 +30,17 @@ class User(BaseModel):
         if values and values >= datetime.now().date():
             raise ValueError('Дата рождения должна быть в прошлом')
         return values
+    
+class User(UserUpdate):    
+    created_at: datetime
+    updated_at: datetime
 
 class UserLogin(BaseModel):
-    login: str
-    password: str
+    login: str = Field(min_length=1, max_length=50, description="Login, от 1 до 50 символов")
+    password: str = Field(min_length=1, max_length=50, description="Пароль, от 1 до 50 символов")
 
 class UserRegistration(UserLogin):
-    mail: str
+    mail: EmailStr = Field(default=..., description="Электронная почта")
 
 # Testig validating
 def test_valid_user(data: dict) -> None:

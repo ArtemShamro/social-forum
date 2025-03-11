@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import HTTPException
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 from app.api.auth import auth
-from app.api.db import init_db, engine
+from app.api.db import init_db
 
 # metadata.create_all(engine)
 
@@ -12,6 +14,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, openapi_url="/api/v1/auth/openapi.json", docs_url="/api/v1/auth/docs")
 
-# app.include_router(auth)
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    if exc.status_code == 401 and exc.detail == 'Token not found':
+        return JSONResponse(
+            status_code=401,
+            content={"message": "Необходимо зайдти или зарегистрироваться!"},
+        )
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"message": exc.detail},
+    )
 
 app.include_router(auth) # prefix='/api/v1/auth', tags=['auth']

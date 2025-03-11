@@ -15,18 +15,17 @@ class UserDB:
             return new_student.id
 
     @classmethod
-    async def update_user(cls, user_data, id):
+    async def update_user(cls, payload : models.UserUpdate, id):
         async with async_session_maker() as session:
             
             stmt = (
                 update(db.User)
                 .where(db.User.id == id)
-                .values(**user_data) 
+                .values(**payload.model_dump(exclude_unset=True)) 
             )
             
             await session.execute(stmt)
             await session.commit()
-
         return id
 
     @classmethod
