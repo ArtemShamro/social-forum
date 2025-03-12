@@ -1,51 +1,31 @@
-import re
-from pydantic import BaseModel, EmailStr, Field, field_validator, ValidationError, ConfigDict
-from enum import Enum
-from typing import Optional
+from sqlalchemy import text, String
+from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime, date
+from sqlalchemy import func
 
-class UserType(str, Enum):
-    client = "Клиент"
-    business = "Бизнес"
+from app.api.db import Base
 
-class UserUpdate(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=50, description="Имя, от 1 до 50 символов")
-    surname: Optional[str] = Field(None, min_length=1, max_length=50, description="Фамилия, от 1 до 50 символов")
-    birthdate: Optional[date] = Field(None, description="Дата рождения в формате ГГГГ-ММ-ДД")
-    mail: EmailStr = Field(None, description="Электронная почта")
-    phone: Optional[str] = Field(None, description="Номер телефона в международном формате, начинающийся с '+'")
+class User(Base):
+    id: Mapped[int] =  mapped_column(primary_key=True)
+    login: Mapped[str] = mapped_column(String(60), unique=True)
+    password: Mapped[str] = mapped_column(String(100), nullable=True)
+    name: Mapped[str] = mapped_column(nullable=True)
+    surname: Mapped[str] = mapped_column(nullable=True)
+    birthdate: Mapped[date] = mapped_column(nullable=True)
+    mail: Mapped[str]
+    phone: Mapped[str] = mapped_column(nullable=True)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=datetime.now)
+
+    is_user: Mapped[bool] = mapped_column(default=True, server_default=text('true'), nullable=False)
+    is_business: Mapped[bool] = mapped_column(default=False, server_default=text('false'), nullable=False)
     
-    model_config = ConfigDict(from_attributes=True)
-
-    @field_validator("phone")
-    @classmethod
-    def validate_phone_number(cls, values: str) -> str:
-        if values is not None and not re.match(r'^\+\d{1,15}$', values):
-            raise ValueError('Номер телефона должен начинаться с "+" и содержать от 1 до 15 цифр')
-        return values
+    extend_existing = True
     
-    @field_validator("birthdate")
-    @classmethod
-    def validate_date_of_birth(cls, values: date) :
-        if values and values >= datetime.now().date():
-            raise ValueError('Дата рождения должна быть в прошлом')
-        return values
-    
-class User(UserUpdate):    
-    created_at: datetime
-    updated_at: datetime
+    def __str__(self):
+        return (f"{self.__class__.__name__}(id={self.id}, "
+                f"first_name={self.first_name!r},"
+                f"last_name={self.last_name!r})")
 
-class UserLogin(BaseModel):
-    login: str = Field(min_length=1, max_length=50, description="Login, от 1 до 50 символов")
-    password: str = Field(min_length=1, max_length=50, description="Пароль, от 1 до 50 символов")
-
-class UserRegistration(UserLogin):
-    mail: EmailStr = Field(default=..., description="Электронная почта")
-
-# Testig validating
-def test_valid_user(data: dict) -> None:
-    try:
-        student = User(**data)
-        print(student)
-    except ValidationError as e:
-        print(f"Ошибка валидации: {e}")
+    def __repr__(self):
+        return str(self)
