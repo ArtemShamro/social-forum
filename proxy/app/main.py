@@ -57,6 +57,9 @@ async def proxy(path: str, request: Request):
             request_params["headers"].pop("content-length", None)
 
         response = await client.request(**request_params)
-        print(response)
         
-        return response.json()
+        return Response(
+            content=response.content,
+            status_code=response.status_code,
+            headers=dict(response.headers)
+        )
