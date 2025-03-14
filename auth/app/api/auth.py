@@ -12,9 +12,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 auth = APIRouter()
 
 @auth.get('/all', response_model=List[User], summary="Получить список всех пользователей")
-async def register():
+async def register(session: AsyncSession = Depends(get_db)):
     print("GET ALL USERS")
-    users = await UserDB.get_all_users()
+    users = await UserDB.get_all_users(session)
     return users
 
 

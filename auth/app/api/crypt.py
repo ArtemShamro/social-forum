@@ -1,10 +1,9 @@
 from passlib.context import CryptContext
 from fastapi import Request, HTTPException, status, Depends
-from app.api.db_manager import UserDB
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 
-from app.api.config import get_auth_data
+from app.api.config import Config
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -18,7 +17,7 @@ def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(days=30)
     to_encode.update({"exp": expire})
-    auth_data = get_auth_data()
+    auth_data = Config.ENC_DATA
     encode_jwt = jwt.encode(to_encode, auth_data['secret_key'], algorithm=auth_data['algorithm'])
     return encode_jwt
 
@@ -30,7 +29,7 @@ def get_token(request: Request):
 
 async def get_current_user(token: str = Depends(get_token)):
     try:
-        auth_data = get_auth_data()
+        auth_data = Config.ENC_DATA
         payload = jwt.decode(token, auth_data['secret_key'], algorithms=[auth_data['algorithm']])
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Токен не валидный!')
