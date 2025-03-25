@@ -1,16 +1,17 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import Request, Response, APIRouter
 import httpx
-import grpc
+
 from proto import posts_pb2
 from proto import posts_pb2_grpc
+
 from app.schemas import *
 
-app = FastAPI()
-BACKEND_URL = "http://auth:8000"  # Адрес основного сервиса
-GRPC_URL = "posts:50051"  # Адрес gRPC сервиса
+from app.config import Config
+BACKEND_URL = Config.AUTH_URL
 
+auth = APIRouter()
 
-@app.post("/login")
+@auth.post("/login")
 async def auth_user(response: Response, request: Request):
     async with httpx.AsyncClient() as client:
         url = f"{BACKEND_URL}/login"
@@ -35,28 +36,12 @@ async def auth_user(response: Response, request: Request):
 
     return {'access_token': access_token, 'refresh_token': None}
 
-@app.post("/logout")
+@auth.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie(key="users_access_token")
     return {'message': 'Пользователь успешно вышел из системы'}
 
-
-@app.post("/create_post")
-async def create_post(response: Response, request: PostCreateRequest):
-    grpc_request = posts_pb2.PostCreateRequest(
-        owner_id="1",
-        title=request.title,
-        description=request.description,
-        private=request.private
-    )
-
-    with grpc.insecure_channel(GRPC_URL) as channel:
-        stub = posts_pb2_grpc.PostsServiceStub(channel)
-        grpc_response = stub.CreatePost(grpc_request)
-
-    return {'message': grpc_response.order_status}
-
-@app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+@auth.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
 async def proxy(path: str, request: Request):
     async with httpx.AsyncClient() as client:
         method = request.method

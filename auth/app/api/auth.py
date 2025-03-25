@@ -78,7 +78,7 @@ async def auth_user(response: Response, user_data: schemas.UserLogin, session: A
                             detail='Неверная почта или пароль')
     access_token = crypt.create_access_token({"sub": str(check.id)})
     response.set_cookie(key="users_access_token", value=access_token, httponly=True)
-    return {'access_token': access_token, 'refresh_token': None}
+    return {'user_access_token': access_token, 'refresh_token': None}
 
 
 async def authenticate_user(login: str, password: str, session: AsyncSession):
