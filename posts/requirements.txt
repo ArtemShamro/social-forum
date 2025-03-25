@@ -13,3 +13,5 @@ python-jose
 alembic
 pydantic-settings
 pydantic[email]
+grpcio==1.71.0
+grpcio-tools

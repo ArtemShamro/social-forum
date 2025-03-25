@@ -1,13 +1,21 @@
 services:
   proxy:
-    build: ./proxy
-    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    build: 
+      dockerfile: ./proxy/Dockerfile
+    command: uvicorn app.app.proxy:app --reload --host 0.0.0.0 --port 8000
+    environment:
+      - PYTHONPATH=/app/proto:/app:/app/app
     volumes:
-      - ./proxy/:/app/
+      - ./proxy/:/app/app/
     ports:
       - 8002:8000
+    depends_on:
+      - auth
+      - posts
+
   auth:
-    build: ./auth
+    build: 
+      dockerfile: ./auth/Dockerfile
     entrypoint: ./auth_entrypoint.sh
     volumes:
       - ./auth/:/app/
@@ -29,5 +37,33 @@ services:
     ports:
       - "13500:5432"
 
+  posts:
+    build: 
+      dockerfile: ./posts/Dockerfile
+    entrypoint: ./app/posts_entrypoint.sh
+    # entrypoint: ./auth_entrypoint.sh
+    volumes:
+      - ./posts/:/app/app/
+    ports:
+      - 50051:50051
+      - 8003:8000
+    environment:
+      DATABASE_URL : ${POSTS_DATABASE_URL}
+      PYTHONPATH : "/app/proto:/app:/app/app"
+    depends_on:
+      - posts_db
+
+  posts_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - postgres_posts_users:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=posts_db_username
+      - POSTGRES_PASSWORD=posts_db_password
+      - POSTGRES_DB=posts_db_dev
+    ports:
+      - "13501:5432"
+
 volumes:
   postgres_data_users:
+  postgres_posts_users:

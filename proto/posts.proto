@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package posts;
+
+message PostCreateRequest {
+    string owner_id = 1;
+    string title = 2;
+    string description = 3;
+    bool private = 4;
+}
+
+message PostCreateResponse {
+    string order_status = 1;
+}
+
+service PostsService {
+    rpc CreatePost(PostCreateRequest) returns (PostCreateResponse) {}
+}
