@@ -24,17 +24,31 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bposts.proto\x12\x05posts\"Z\n\x11PostCreateRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07private\x18\x04 \x01(\x08\"*\n\x12PostCreateResponse\x12\x14\n\x0corder_status\x18\x01 \x01(\t2S\n\x0cPostsService\x12\x43\n\nCreatePost\x12\x18.posts.PostCreateRequest\x1a\x19.posts.PostCreateResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bposts.proto\x12\x05posts\"\x86\x01\n\x04Post\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\x12\x12\n\ncreated_at\x18\x06 \x01(\t\x12\x12\n\nupdated_at\x18\x07 \x01(\t\"&\n\x08PostList\x12\x1a\n\x05posts\x18\x01 \x03(\x0b\x32\x0b.posts.Post\")\n\x0cPostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"Z\n\x11\x43reatePostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07private\x18\x04 \x01(\x08\"6\n\x11\x44\x65letePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\"3\n\x0eGetPostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0f\n\x07post_id\x18\x02 \x01(\t\"k\n\x11UpdatePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\"/\n\x12\x44\x65letePostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"D\n\x10ListPostsRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0c\n\x04page\x18\x02 \x01(\x05\x12\x10\n\x08per_page\x18\x03 \x01(\x05\x32\xb5\x02\n\x0cPostsService\x12=\n\nCreatePost\x12\x18.posts.CreatePostRequest\x1a\x13.posts.PostResponse\"\x00\x12\x35\n\x07GetPost\x12\x15.posts.GetPostRequest\x1a\x13.posts.PostResponse\x12;\n\nUpdatePost\x12\x18.posts.UpdatePostRequest\x1a\x13.posts.PostResponse\x12;\n\nDeletePost\x12\x18.posts.DeletePostRequest\x1a\x13.posts.PostResponse\x12\x35\n\tListPosts\x12\x17.posts.ListPostsRequest\x1a\x0f.posts.PostListb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'posts_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_POSTCREATEREQUEST']._serialized_start=22
-  _globals['_POSTCREATEREQUEST']._serialized_end=112
-  _globals['_POSTCREATERESPONSE']._serialized_start=114
-  _globals['_POSTCREATERESPONSE']._serialized_end=156
-  _globals['_POSTSSERVICE']._serialized_start=158
-  _globals['_POSTSSERVICE']._serialized_end=241
+  _globals['_POST']._serialized_start=23
+  _globals['_POST']._serialized_end=157
+  _globals['_POSTLIST']._serialized_start=159
+  _globals['_POSTLIST']._serialized_end=197
+  _globals['_POSTRESPONSE']._serialized_start=199
+  _globals['_POSTRESPONSE']._serialized_end=240
+  _globals['_CREATEPOSTREQUEST']._serialized_start=242
+  _globals['_CREATEPOSTREQUEST']._serialized_end=332
+  _globals['_DELETEPOSTREQUEST']._serialized_start=334
+  _globals['_DELETEPOSTREQUEST']._serialized_end=388
+  _globals['_GETPOSTREQUEST']._serialized_start=390
+  _globals['_GETPOSTREQUEST']._serialized_end=441
+  _globals['_UPDATEPOSTREQUEST']._serialized_start=443
+  _globals['_UPDATEPOSTREQUEST']._serialized_end=550
+  _globals['_DELETEPOSTRESPONSE']._serialized_start=552
+  _globals['_DELETEPOSTRESPONSE']._serialized_end=599
+  _globals['_LISTPOSTSREQUEST']._serialized_start=601
+  _globals['_LISTPOSTSREQUEST']._serialized_end=669
+  _globals['_POSTSSERVICE']._serialized_start=672
+  _globals['_POSTSSERVICE']._serialized_end=981
 # @@protoc_insertion_point(module_scope)

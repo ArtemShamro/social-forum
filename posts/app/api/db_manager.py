@@ -1,54 +1,81 @@
 from fastapi import Depends, HTTPException, status  
 from app.api import schemas 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, or_
 import app.api.models as db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.db import get_db
+import sqlalchemy as sa
+
 
 class PostsDB:
     
     @classmethod
-    async def add_post(cls, payload: schemas.PostCreate,
+    async def add_post(cls, payload: schemas.CreatePost,
                        session: AsyncSession = Depends(get_db)):
         new_post = db.Posts(**payload.model_dump())
 
         session.add(new_post)
         await session.commit()
         await session.refresh(new_post)
-        return new_post.id
+        return new_post
 
-    # @classmethod
-    # async def update_user(cls, payload : schemas.UserUpdate, id: int,
-    #                    session: AsyncSession = Depends(get_db)):
-        
-    #     stmt = (
-    #         update(db.User)
-    #         .where(db.User.id == id)
-    #         .values(**payload.model_dump(exclude_unset=True)) 
-    #     )
-        
-    #     await session.execute(stmt)
-    #     await session.commit()
-    #     return id
 
-    # @classmethod
-    # async def find_one_or_none_by_login(cls, data_login: str,
-    #                    session: AsyncSession = Depends(get_db)):
-    #     query = select(db.User).filter_by(login=data_login)
-    #     result = await session.execute(query)
-    #     return result.scalar_one_or_none()
+    @classmethod
+    async def get_post(cls, payload: schemas.GetPost,
+                       session: AsyncSession = Depends(get_db)):
+        query = select(db.Posts).filter_by(id=int(payload.post_id))
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
     
-    # @classmethod
-    # async def find_one_or_none_by_id(cls, data_id: int,
-    #             session: AsyncSession = Depends(get_db)):
-        
-    #     query = select(db.User).filter_by(id=data_id)
-    #     result = await session.execute(query)
-    #     return result.scalar_one_or_none()
+    @classmethod
+    async def list_posts(cls, payload: schemas.ListPosts,
+                       session: AsyncSession):
+        query = select(db.Posts).filter(
+            or_(db.Posts.owner_id == payload.owner_id,
+                db.Posts.private == False
+            )
+        )
 
-    # @classmethod
-    # async def get_all_users(cls, session: AsyncSession = Depends(get_db)):
-    #     query = select(db.User)
-    #     result = await session.execute(query)
-    #     users = result.scalars().all()
-    #     return users
+        query = query.offset((payload.page - 1) * payload.per_page).limit(payload.per_page)
+        
+        result = await session.execute(query)
+        return result.scalars().all()
+    
+    @classmethod
+    async def update_post(cls, payload: schemas.UpdatePost, id: int,
+                        session: AsyncSession) -> db.Posts | None:
+        try:
+            post = await session.get(db.Posts, id)
+            if post is None:
+                return None
+                
+            update_data = payload.model_dump(exclude_unset=True)
+            for key, value in update_data.items():
+                if value is not None:
+                    setattr(post, key, value)
+                
+            await session.commit()
+            await session.refresh(post)
+            
+            return post
+            
+        except Exception as e:
+            await session.rollback()
+            raise e
+        
+    @classmethod
+    async def delete_post(cls, id: int,
+                        session: AsyncSession) -> db.Posts | None:
+        try:
+            post = await session.get(db.Posts, id)
+            if post is None:
+                return None
+                
+            await session.delete(post)
+            await session.commit()
+            
+            return post
+            
+        except Exception as e:
+            await session.rollback()
+            raise e

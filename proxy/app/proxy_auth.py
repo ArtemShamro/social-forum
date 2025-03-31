@@ -9,7 +9,9 @@ from app.schemas import *
 from app.config import Config
 BACKEND_URL = Config.AUTH_URL
 
+
 auth = APIRouter()
+
 
 @auth.post("/login")
 async def auth_user(response: Response, request: Request):
@@ -31,15 +33,17 @@ async def auth_user(response: Response, request: Request):
             request_params["headers"].pop("content-length", None)
 
         response_backend = await client.request(**request_params)
-        access_token = response_backend.json().get("access_token")
+        access_token = response_backend.json().get("user_access_token")
         response.set_cookie(key="users_access_token", value=access_token, httponly=True)
 
     return {'access_token': access_token, 'refresh_token': None}
+
 
 @auth.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie(key="users_access_token")
     return {'message': 'Пользователь успешно вышел из системы'}
+
 
 @auth.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
 async def proxy(path: str, request: Request):
