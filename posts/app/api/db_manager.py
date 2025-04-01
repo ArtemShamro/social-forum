@@ -1,10 +1,9 @@
-from fastapi import Depends, HTTPException, status  
+from fastapi import Depends
 from app.api import schemas 
 from sqlalchemy import select, update, or_
 import app.api.models as db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.db import get_db
-import sqlalchemy as sa
 
 
 class PostsDB:

@@ -37,7 +37,7 @@ async def test_get_me(client, session):
     }
     login_response = client.post("/login", json=login_payload)
     assert login_response.status_code == 200
-    access_token = login_response.json()["access_token"]
+    access_token = login_response.json()["user_access_token"]
 
     # Получаем информацию о текущем пользователе
     client.cookies = {"users_access_token": access_token}
@@ -61,7 +61,7 @@ async def test_update_user(client, session):
         "password": "testpassword"
     }
     login_response = client.post("/login", json=login_payload)
-    access_token = login_response.json()["access_token"]
+    access_token = login_response.json()["user_access_token"]
 
     # Обновляем информацию пользователя
     update_payload = {
