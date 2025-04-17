@@ -17,3 +17,7 @@ class UpdatePostRequest(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     private: Optional[bool] = None
+
+class CreateCommentRequest(BaseModel):
+    post_id: int
+    comment: str

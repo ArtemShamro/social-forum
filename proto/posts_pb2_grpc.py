@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 import posts_pb2 as posts__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
@@ -59,6 +60,21 @@ class PostsServiceStub(object):
                 request_serializer=posts__pb2.ListPostsRequest.SerializeToString,
                 response_deserializer=posts__pb2.PostList.FromString,
                 _registered_method=True)
+        self.LikePost = channel.unary_unary(
+                '/posts.PostsService/LikePost',
+                request_serializer=posts__pb2.LikePostRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.CreateComment = channel.unary_unary(
+                '/posts.PostsService/CreateComment',
+                request_serializer=posts__pb2.CreateCommentRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.GetPostComments = channel.unary_unary(
+                '/posts.PostsService/GetPostComments',
+                request_serializer=posts__pb2.GetPostCommentsRequest.SerializeToString,
+                response_deserializer=posts__pb2.ComentsList.FromString,
+                _registered_method=True)
 
 
 class PostsServiceServicer(object):
@@ -94,6 +110,24 @@ class PostsServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def LikePost(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateComment(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPostComments(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_PostsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -121,6 +155,21 @@ def add_PostsServiceServicer_to_server(servicer, server):
                     servicer.ListPosts,
                     request_deserializer=posts__pb2.ListPostsRequest.FromString,
                     response_serializer=posts__pb2.PostList.SerializeToString,
+            ),
+            'LikePost': grpc.unary_unary_rpc_method_handler(
+                    servicer.LikePost,
+                    request_deserializer=posts__pb2.LikePostRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'CreateComment': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateComment,
+                    request_deserializer=posts__pb2.CreateCommentRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'GetPostComments': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPostComments,
+                    request_deserializer=posts__pb2.GetPostCommentsRequest.FromString,
+                    response_serializer=posts__pb2.ComentsList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -258,6 +307,87 @@ class PostsService(object):
             '/posts.PostsService/ListPosts',
             posts__pb2.ListPostsRequest.SerializeToString,
             posts__pb2.PostList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def LikePost(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/posts.PostsService/LikePost',
+            posts__pb2.LikePostRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateComment(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/posts.PostsService/CreateComment',
+            posts__pb2.CreateCommentRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetPostComments(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/posts.PostsService/GetPostComments',
+            posts__pb2.GetPostCommentsRequest.SerializeToString,
+            posts__pb2.ComentsList.FromString,
             options,
             channel_credentials,
             insecure,

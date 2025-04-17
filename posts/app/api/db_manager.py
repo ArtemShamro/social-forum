@@ -78,3 +78,37 @@ class PostsDB:
         except Exception as e:
             await session.rollback()
             raise e
+        
+    @classmethod
+    async def like_post(cls, payload: schemas.LikePost,
+                       session: AsyncSession = Depends(get_db)):
+        new_like = db.Likes(**payload.model_dump())
+
+        session.add(new_like)
+        await session.commit()
+        await session.refresh(new_like)
+        return
+    
+
+    @classmethod
+    async def create_comment(cls, payload: schemas.CreateComment,
+                       session: AsyncSession = Depends(get_db)):
+        new_comment = db.Comments(**payload.model_dump())
+
+        session.add(new_comment)
+        await session.commit()
+        await session.refresh(new_comment)
+        return
+    
+
+    @classmethod
+    async def list_comments(cls, payload: schemas.GetPostComments,
+                       session: AsyncSession):
+        query = select(db.Comments).filter(
+                db.Comments.post_id == payload.post_id
+            )
+
+        query = query.offset((payload.page - 1) * payload.per_page).limit(payload.per_page)
+        
+        result = await session.execute(query)
+        return result.scalars().all()

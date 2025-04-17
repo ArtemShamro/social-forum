@@ -6,12 +6,12 @@ from proto import posts_pb2
 from proto import posts_pb2_grpc
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from app.api.schemas import *
+import app.api.schemas as sc
 from app.api.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import Depends
 from app.api.db_manager import PostsDB
-from app.api.utils import post_to_grpc
+from app.api.utils import post_to_grpc, comment_to_grpc
+from google.protobuf import empty_pb2
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -22,7 +22,7 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
     async def CreatePost(self, request, context):
         logging.info(f"Received message: {request}")
         
-        payload = CreatePost(
+        payload = sc.CreatePost(
             owner_id=request.owner_id,
             title=request.title,
             description=request.description,
@@ -43,7 +43,7 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
     async def GetPost(self, request, context):
         logging.info(f"Received message: {request}")
         
-        payload = GetPost(
+        payload = sc.GetPost(
             post_id=request.post_id,
             owner_id=request.owner_id
         )
@@ -64,7 +64,7 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
     async def ListPosts(self, request, context):
         logging.info(f"Received message: {request}")
         
-        payload = ListPosts(
+        payload = sc.ListPosts(
             owner_id=request.owner_id,
             page=request.page,
             per_page=request.per_page
@@ -84,7 +84,7 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
         
         post = await check_edit_permission(request, context)
         
-        payload_update = UpdatePost(
+        payload_update = sc.UpdatePost(
             title=request.title,
             description=request.description,
             private=request.private
@@ -107,11 +107,61 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             post = post_to_grpc(post)
             response = posts_pb2.PostResponse(post=post)
             return response
+        
+    async def LikePost(self, request, context):
+        logging.info(f"Received message: {request}")
+
+        payload = sc.LikePost(
+            post_id=request.post_id,
+            owner_id=request.user_id
+        )
+
+        # валидация существует ли пост -> поста нет
+        # лайкал ли этот юзер этот пост уже ранее -> ничего не делать
+
+
+        async with get_db() as session:  
+            await PostsDB.like_post(payload, session)
+            return empty_pb2.Empty()
+        
+
+    async def CreateComment(self, request, context):
+        logging.info(f"Received message: {request}")
+
+        payload = sc.CreateComment(
+            post_id=request.post_id,
+            owner_id=request.user_id,
+            comment=request.comment
+        )
+
+        # валидация существует ли пост -> поста нет
+
+        async with get_db() as session:  
+            await PostsDB.create_comment(payload, session)
+            return empty_pb2.Empty()
+        
+    async def GetPostComments(self, request, context):
+        logging.info(f"Received message: {request}")
+
+        payload = sc.GetPostComments(
+            post_id=request.post_id,
+            page=request.page,
+            per_page=request.per_page
+        )
+
+        async with get_db() as session:  
+            comments = await PostsDB.list_comments(payload, session)
+            if comments is None:
+                print("Posts not found")
+                await context.abort(grpc.StatusCode.NOT_FOUND, f"Posts with owner_id {request.owner_id} not found")
+            comments = [comment_to_grpc(comment) for comment in comments]
+            response = posts_pb2.ComentsList(comments=comments)
+            return response
 
 
 
 async def check_edit_permission(request, context):
-    payload = GetPost(
+    payload = sc.GetPost(
         post_id=request.post_id,
         owner_id=request.owner_id
     )

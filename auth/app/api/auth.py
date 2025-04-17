@@ -43,10 +43,11 @@ async def register(payload: schemas.UserRegistration, session: AsyncSession = De
         raise HTTPException(status_code=400, detail="Логин занят!")
     
     payload.password = crypt.get_password_hash(payload.password)
-    await UserDB.add_user(payload, session)
+    new_user = await UserDB.add_user(payload, session)
     
     response = {
-        "messege" : "Success!"
+        "messege" : "Success!",
+        "user" : new_user
     }
     return response
 

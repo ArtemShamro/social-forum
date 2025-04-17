@@ -10,12 +10,12 @@ class UserDB:
     @classmethod
     async def add_user(cls, payload: schemas.UserRegistration,
                        session: AsyncSession = Depends(get_db)):
-        new_student = db.User(**payload.model_dump())
+        new_user = db.User(**payload.model_dump())
 
-        session.add(new_student)
+        session.add(new_user)
         await session.commit()
-        await session.refresh(new_student)
-        return new_student.id
+        await session.refresh(new_user)
+        return new_user
 
     @classmethod
     async def update_user(cls, payload : schemas.UserUpdate, id: int,
