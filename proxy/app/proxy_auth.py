@@ -31,7 +31,8 @@ async def register_user(request: Request):
             response = await client.request(**request_params)
             print(response.json())
             if response.status_code == 200:
-                kafka_producer.send_user_registration_event(response.json()['user'])
+                kafka_producer.send_user_registration_event(
+                    user_data=response.json()['user'])
         except httpx.HTTPError as exc:
             return exc.response.json()
     return response.json()
@@ -39,6 +40,7 @@ async def register_user(request: Request):
 
 @auth.post("/login")
 async def auth_user(response: Response, request: Request):
+    print("REQUEST:", request)
     async with httpx.AsyncClient() as client:
         url = f"{BACKEND_URL}/login"
         headers = dict(request.headers)
@@ -47,7 +49,6 @@ async def auth_user(response: Response, request: Request):
         content_json = await request.json()
 
         print(content_json)
-        
 
         request_params = {
             "method": "POST",
@@ -62,7 +63,9 @@ async def auth_user(response: Response, request: Request):
         response_backend = await client.request(**request_params)
         print(response_backend.json())
         access_token = response_backend.json().get("user_access_token")
-        response.set_cookie(key="users_access_token", value=access_token, httponly=True)
+        response.set_cookie(key="users_access_token",
+                            value=access_token, httponly=True,
+                            samesite="Lax", secure=False)
 
     return {'access_token': access_token, 'refresh_token': None}
 
@@ -92,7 +95,7 @@ async def proxy(path: str, request: Request):
             request_params["headers"].pop("content-length", None)
 
         response = await client.request(**request_params)
-        
+
         return Response(
             content=response.content,
             status_code=response.status_code,

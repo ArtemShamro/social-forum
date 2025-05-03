@@ -1,0 +1,43 @@
+/* Контейнер для кнопок */
+.header-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+/* Стиль для кнопок */
+.header-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.header-button:hover {
+  background-color: #307732; /* зеленый для hover */
+  color: white;
+}
+
+/* Стиль для кнопки "Зарегистрироваться" */
+.header-button:first-child {
+  background-color: #0050a6;
+  color: white;
+}
+
+.header-button:first-child:hover {
+  background-color: #0071ea;
+}
+
+/* Стиль для кнопки "Войти" */
+.header-button:last-child {
+  background-color: #007f1e;
+  color: white;
+}
+
+.header-button:last-child:hover {
+  background-color: #00b126;
+}
