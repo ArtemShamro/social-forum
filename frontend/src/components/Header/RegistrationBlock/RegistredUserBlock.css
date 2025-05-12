@@ -36,3 +36,12 @@ button {
 .header-button-logout:hover {
   background-color: #da0000;
 }
+
+.header-button-profile {
+  background-color: #5f0490;
+  color: white;
+}
+
+.header-button-profile:hover {
+  background-color: #8000ff;
+}

@@ -28,11 +28,16 @@ export async function GetPostById(id) {
   const data = { post_id: id };
   try {
     const response = await api.post(`/posts/get_post`, data);
-    
+
     console.log("RESPONSE:", response.data);
     return response.data;
   } catch (error) {
     console.error(error);
     return null;
   }
+}
+
+export async function LikePost(postId) {
+  // Adjust the endpoint and method as needed
+  return await api.post(`/posts/like_post?post_id=${postId}`);
 }

@@ -6,10 +6,12 @@ import { AuthContext } from "../../../Context";
 import { useContext } from "react";
 import Modal from "../../Modal/Modal";
 import NewPostForm from "../../Forms/NewPostForm/NewPostForm";
+import { useNavigate } from "react-router-dom";
 
-export default function UnregistredUserBlock() {
+export default function RegistredUserBlock() {
   const [userId, userName] = useContext(AuthContext);
   const [isModalOpen, setModalOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setModalOpen(false);
@@ -25,6 +27,14 @@ export default function UnregistredUserBlock() {
         }}
       >
         New post
+      </Button>
+      <Button
+        className="header-button-profile"
+        onClick={() => {
+          navigate("/profile");
+        }}
+      >
+        Profile
       </Button>
       <Button
         className="header-button-logout"

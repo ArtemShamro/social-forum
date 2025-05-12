@@ -6,6 +6,7 @@ import { checkAuth, GetMe } from "./api/user";
 import { AuthContext } from "./Context";
 import MainPage from "./pages/MainPage";
 import PostIdPage from "./pages/PostIdPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -32,9 +33,10 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<MainPage />}></Route>
-          <Route path="/post/:id" element={<PostIdPage />}></Route>
-          <Route element={<MainPage />}></Route>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/post/:id" element={<PostIdPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route element={<MainPage />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

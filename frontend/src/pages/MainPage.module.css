@@ -1,0 +1,37 @@
+.mainContainer {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0px;
+}
+
+.introSection {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.contentContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.postsSection {
+  flex: 1;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.rankingsSection {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .contentContainer {
+    flex-direction: column;
+  }
+
+  .rankingsSection {
+    width: 100%;
+  }
+}

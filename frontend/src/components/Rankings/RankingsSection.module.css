@@ -1,0 +1,23 @@
+.rankingsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rankingCard {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1200px) {
+  .rankingsContainer {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
