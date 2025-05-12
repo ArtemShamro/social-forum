@@ -1,0 +1,47 @@
+/* Контейнер для кнопок */
+.header-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+/* Стиль для кнопок */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+/* Стиль для кнопки "Зарегистрироваться" */
+.header-button-new-post {
+  background-color: #003b7a;
+  color: white;
+}
+
+.header-button-new-post:hover {
+  background-color: #0071ea;
+}
+
+/* Стиль для кнопки "Войти" */
+.header-button-logout {
+  background-color: #960000;
+  color: white;
+}
+
+.header-button-logout:hover {
+  background-color: #da0000;
+}
+
+.header-button-profile {
+  background-color: #5f0490;
+  color: white;
+}
+
+.header-button-profile:hover {
+  background-color: #8000ff;
+}

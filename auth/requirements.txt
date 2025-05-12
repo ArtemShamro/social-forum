@@ -1,0 +1,15 @@
+asyncpg
+databases[postgresql]
+fastapi
+SQLAlchemy
+uvicorn
+pydantic
+psycopg2-binary
+regex
+python-jose
+bcrypt==4.0.1
+passlib
+python-jose
+alembic
+pydantic-settings
+pydantic[email]

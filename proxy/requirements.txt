@@ -1,0 +1,10 @@
+fastapi
+httpx
+uvicorn
+grpcio
+grpcio-tools
+python-jose
+bcrypt==4.0.1
+passlib
+python-jose
+confluent-kafka

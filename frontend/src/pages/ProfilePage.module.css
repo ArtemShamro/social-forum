@@ -1,0 +1,15 @@
+/* frontend/src/pages/ProfilePage.module.css */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+}
