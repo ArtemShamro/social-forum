@@ -1,0 +1,50 @@
+<context>
+# Overview
+
+
+I want to develop 
+[Simulate user behaviour of usge the main app. Generate user data, register, login, make posts and commnts using the main app handlers.]
+
+# Core Features  
+[List and describe the main features of your product. For each feature, include:
+- Generate new user data
+- Register users using REST API of main service
+- Generate new posts and post them using API service
+- Generate comments for posts and post them using API Service of main app]
+
+# User Experience  
+[Describe the user journey and experience. Include:
+- Accept parameters:
+    - count of users to generate and register
+    - what they should do: comment or make posts
+    - how many posts they should make and about what topic
+    - how many comments thay should make
+- No user interface, just handlers for rest api (fast api application)]
+</context>
+<PRD>
+# Technical Architecture  
+[Outline the technical implementation details:
+- System components: FastApi aplication
+- Data models: ML model for data generation
+- Infrastructure requirements: should be part of main app infrastructure
+]
+
+# Development Roadmap  
+[Break down the development process into phases:
+- MVP requirements
+- Future enhancements
+- Do not think about timelines whatsoever -- all that matters is scope and detailing exactly what needs to be build in each phase so it can later be cut up into tasks]
+
+# Logical Dependency Chain
+[Define the logical order of development:
+- Firstly develop API handlers and parameters for generation
+- Develop communication with main app for register users, make posts and comments
+- Connect ML model for generation
+]
+
+# Appendix  
+[My main app located in root directory of this project, it contains several services, but all incoming REST API requests process by proxy server, that contains following routes:
+/api route that provide handlers for register users, login etc.
+/posts route that response for actions with posts and comments
+all handlers described in the files of proxy service /proxy/]
+</PRD>

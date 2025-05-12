@@ -1,0 +1,112 @@
+[
+  {
+    "login": "angelapowell",
+    "password": "zt642lSdxfLP",
+    "name": "Jennifer",
+    "surname": "Stanley",
+    "birthdate": "1990-03-22",
+    "mail": "gonzalezsamuel@example.org",
+    "phone": "+2330711063",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "leebrian",
+    "password": "OuTPFX1ZRRTj",
+    "name": "Wendy",
+    "surname": "Cruz",
+    "birthdate": "1993-04-08",
+    "mail": "amanda11@example.net",
+    "phone": "+6649814691",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "nancywheeler",
+    "password": "JAzMwjW5IAif",
+    "name": "Shirley",
+    "surname": "Hernandez",
+    "birthdate": "2000-02-14",
+    "mail": "kevin17@example.org",
+    "phone": "+4540284341",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "angelamyers",
+    "password": "vPjO3Jeda3O4",
+    "name": "Caroline",
+    "surname": "Cox",
+    "birthdate": "1964-06-19",
+    "mail": "dgarrett@example.com",
+    "phone": "+6003473264",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "alexisharrell",
+    "password": "0WjRpxf1vF7H",
+    "name": "Kathryn",
+    "surname": "Berg",
+    "birthdate": "1970-03-15",
+    "mail": "davidkatelyn@example.net",
+    "phone": "+9080137024",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "pwilliams",
+    "password": "Rxw6f0budW4b",
+    "name": "Donald",
+    "surname": "Crosby",
+    "birthdate": "2005-08-01",
+    "mail": "bryantapril@example.net",
+    "phone": "+8901266133",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "psmith",
+    "password": "R6MBvShI6S7i",
+    "name": "Debra",
+    "surname": "Holland",
+    "birthdate": "1957-12-10",
+    "mail": "stevenoconnell@example.net",
+    "phone": "+3469951946",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "renee16",
+    "password": "xtxtUKyzIfRH",
+    "name": "Meagan",
+    "surname": "Mason",
+    "birthdate": "1993-12-11",
+    "mail": "jyoung@example.com",
+    "phone": "+3665886514",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "wardelizabeth",
+    "password": "cOASiReAiG0e",
+    "name": "Patrick",
+    "surname": "Figueroa",
+    "birthdate": "1960-09-04",
+    "mail": "wardkevin@example.net",
+    "phone": "+6881270849",
+    "is_user": true,
+    "is_business": false
+  },
+  {
+    "login": "josephclark",
+    "password": "aNV9Fndkk9U7",
+    "name": "Abigail",
+    "surname": "Ortiz",
+    "birthdate": "1949-07-10",
+    "mail": "tammy39@example.com",
+    "phone": "+3246282470",
+    "is_user": true,
+    "is_business": false
+  }
+]

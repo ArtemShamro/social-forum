@@ -1,0 +1,24 @@
+Prompt to Continue Synthetic Data Generator Project
+I am continuing work on a synthetic data generator for my FastAPI-based app. Here’s what’s already done:
+I have a FastAPI project called data_generator that can:
+Generate, register, and log in users (with profile update and cookie-based authentication)
+Persist user data in data_generator/users.json
+Generate and submit posts as authenticated users
+Generate and submit comments as authenticated users
+Project context:
+User registration, login, and profile update endpoints are under /auth/
+Posts are created via /posts/create_post
+Comments are created via /posts/create_comment
+The backend expects tokens in the users_access_token cookie
+User, post, and comment schemas match the backend’s Pydantic models
+Code structure:
+User models and generators: app/models/user.py
+Post models and generators: app/models/post.py
+Comment models and generators: app/models/comment.py
+User registration/login/profile update: app/api/registration.py
+Post submission: app/api/posting.py
+Comment submission: app/api/commenting.py
+User persistence: app/utils/user_store.py
+What I want to do next:
+[Describe your next goal here, e.g., “Automate user activity (posting and commenting in a loop),” “Simulate multiple users,” “Add error handling/reporting,” etc.]
+Please review my setup and help me continue from here. If you need to see any code, let me know which file.
