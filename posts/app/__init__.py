@@ -6,6 +6,7 @@ import asyncio
 from app.api.posts import serve
 from app.api.config import Config
 
+
 def init_app(init_db=True):
 
     if init_db:
@@ -16,7 +17,7 @@ def init_app(init_db=True):
 
     from app.api.posts import serve
 
-    
-    app = FastAPI(lifespan=serve, openapi_url="/api/v1/auth/openapi.json", docs_url="/api/v1/auth/docs")
-    
+    app = FastAPI(lifespan=serve, openapi_url="/api/v1/auth/openapi.json",
+                  docs_url="/api/v1/auth/docs")
+
     return app

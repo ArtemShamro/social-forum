@@ -20,6 +20,7 @@ class Base(AsyncAttrs, DeclarativeBase):
     def __tablename__(cls) -> str:
         return f"{cls.__name__.lower()}s"
 
+
 class DatabaseSessionManager:
     def __init__(self):
         self._engine: AsyncEngine | None = None
@@ -69,7 +70,9 @@ class DatabaseSessionManager:
     async def drop_all(self, connection: AsyncConnection):
         await connection.run_sync(Base.metadata.drop_all)
 
+
 sessionmanager = DatabaseSessionManager()
+
 
 @asynccontextmanager
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

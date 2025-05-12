@@ -14,26 +14,27 @@ class KafkaProducer:
             'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
             'client.id': 'api_service_producer'
         })
-        
+
         # Define topics
         self.USER_REGISTRATION_TOPIC = "user_registration"
         self.POST_LIKE_TOPIC = "post_like"
         self.POST_VIEW_TOPIC = "post_view"
         self.POST_COMMENT_TOPIC = "post_comment"
-    
+        self.POST_CREATE_TOPIC = "post_create"
+
     def _delivery_report(self, err, msg):
         """Called once for each message produced to indicate delivery result."""
         if err is not None:
             print(f'Message delivery failed: {err}')
         else:
             print(f'Message delivered to {msg.topic()} [{msg.partition()}]')
-    
+
     def _serialize_datetime(self, obj):
         """JSON serializer for datetime objects."""
         if isinstance(obj, datetime):
             return obj.isoformat()
         raise TypeError(f"Type {type(obj)} not serializable")
-    
+
     def send_event(self, topic: str, data: Dict[str, Any], key: Optional[str] = None):
         """Send an event to the specified Kafka topic."""
         payload = json.dumps(data, default=self._serialize_datetime).encode('utf-8')
@@ -45,7 +46,7 @@ class KafkaProducer:
         )
         # Flush to ensure message is sent immediately
         self.producer.flush()
-    
+
     def send_user_registration_event(self, user_data: Dict[str, Any]):
         self.send_event(
             topic=self.USER_REGISTRATION_TOPIC,
@@ -56,7 +57,7 @@ class KafkaProducer:
             },
             key=str(user_data["id"])
         )
-    
+
     def send_post_like_event(self, user_id: str, post_id: int):
         self.send_event(
             self.POST_LIKE_TOPIC,
@@ -68,7 +69,7 @@ class KafkaProducer:
             },
             key=str(post_id)
         )
-    
+
     def send_post_view_event(self, user_id: str, post_id: int, post_name: str):
         self.send_event(
             topic=self.POST_VIEW_TOPIC,
@@ -80,8 +81,8 @@ class KafkaProducer:
                 "post_name": post_name
             },
             key=str(post_id)
-        ) 
-    
+        )
+
     def send_post_comment_event(self, user_id: str, post_id: int):
         self.send_event(
             topic=self.POST_COMMENT_TOPIC,
@@ -92,4 +93,16 @@ class KafkaProducer:
                 "post_id": post_id
             },
             key=str(post_id)
-        ) 
+        )
+
+    def send_post_create_event(self, user_id: str, post_id: int):
+        self.send_event(
+            topic=self.POST_CREATE_TOPIC,
+            data={
+                "event_type": "post_create",
+                "timestamp": datetime.now(),
+                "user_id": user_id,
+                "post_id": post_id
+            },
+            key=str(post_id)
+        )

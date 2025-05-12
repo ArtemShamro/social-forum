@@ -1,9 +1,6 @@
 from fastapi import Request, Response, APIRouter
 import httpx
 
-from proto import posts_pb2
-from proto import posts_pb2_grpc
-
 from app.schemas import *
 
 from app.config import Config

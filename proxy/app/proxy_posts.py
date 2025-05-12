@@ -1,6 +1,5 @@
 from app.utils import check_login, grpc_post_responce_to_json, check_login_or_zero
-from fastapi import Request, Response, APIRouter
-import httpx
+from fastapi import Request, APIRouter
 import grpc
 from google.protobuf.json_format import MessageToJson, Parse
 import json
@@ -40,6 +39,8 @@ async def create_post(request: Request, payload: sc.CreatePostRequest):
             post = grpc_response.post
             print("POST:: ", post)
             post_json = grpc_post_responce_to_json(post)
+            print("POST JSON:: ", post_json)
+            kafka_producer.send_post_create_event(user_id, int(post_json['post_id']))
             return post_json
         except grpc.RpcError as e:
             print("EXCEPTION LAL : ", e)
@@ -71,7 +72,7 @@ async def get_post(request: Request, payload: sc.GetPostRequest):
             json_dict = json.loads(json_str)
             if user_id != 0:
                 kafka_producer.send_post_view_event(
-                    user_id, json_dict['postId'], json_dict['title'])
+                    user_id, int(json_dict['postId']), json_dict['title'])
             return json_dict
         except grpc.RpcError as e:
             return {'message': e.details()}
@@ -213,7 +214,7 @@ async def create_comment(request: Request, payload: sc.CreateCommentRequest):
 
 
 @posts.get("/list_comments")
-async def list_posts(request: Request, post_id: int, page: int = 1, per_page: int = 10):
+async def list_comments(request: Request, post_id: int, page: int = 1, per_page: int = 10):
 
     print("LIST COMMENTS")
 
@@ -232,6 +233,29 @@ async def list_posts(request: Request, post_id: int, page: int = 1, per_page: in
             json_str = [MessageToJson(
                 comment, always_print_fields_with_no_presence=True) for comment in comments]
             json_dict = [json.loads(comment) for comment in json_str]
+            return json_dict
+        except grpc.RpcError as e:
+            return {'message': e.details()}
+
+
+# get all posts ids
+@posts.get("/list_posts_ids")
+async def list_posts_ids(request: Request):
+
+    print("LIST POSTS IDS")
+    print(request)
+
+    grpc_request = posts_pb2.Empty()
+
+    async with grpc.aio.insecure_channel(GRPC_URL) as channel:
+        stub = posts_pb2_grpc.PostsServiceStub(channel)
+
+        try:
+            grpc_response = await stub.ListPostsIds(grpc_request)
+            post_ids = grpc_response.post_ids
+
+            # RepeatedScalarContainer to json
+            json_dict = [int(post_id) for post_id in post_ids]
             return json_dict
         except grpc.RpcError as e:
             return {'message': e.details()}

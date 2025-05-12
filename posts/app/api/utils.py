@@ -1,5 +1,6 @@
 from proto import posts_pb2
 
+
 def post_to_grpc(post):
     """Преобразует SQLAlchemy-модель в gRPC-сообщение."""
     return posts_pb2.Post(
@@ -11,6 +12,7 @@ def post_to_grpc(post):
         created_at=post.created_at.isoformat() if post.created_at else "",
         updated_at=post.updated_at.isoformat() if post.updated_at else "",
     )
+
 
 def comment_to_grpc(comment):
     """Преобразует SQLAlchemy-модель в gRPC-сообщение."""

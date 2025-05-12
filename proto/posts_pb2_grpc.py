@@ -75,6 +75,16 @@ class PostsServiceStub(object):
                 request_serializer=posts__pb2.GetPostCommentsRequest.SerializeToString,
                 response_deserializer=posts__pb2.ComentsList.FromString,
                 _registered_method=True)
+        self.ListPostsIds = channel.unary_unary(
+                '/posts.PostsService/ListPostsIds',
+                request_serializer=posts__pb2.Empty.SerializeToString,
+                response_deserializer=posts__pb2.PostsIdsList.FromString,
+                _registered_method=True)
+        self.GetPosts = channel.unary_unary(
+                '/posts.PostsService/GetPosts',
+                request_serializer=posts__pb2.GetPostsRequest.SerializeToString,
+                response_deserializer=posts__pb2.PostList.FromString,
+                _registered_method=True)
 
 
 class PostsServiceServicer(object):
@@ -128,6 +138,18 @@ class PostsServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListPostsIds(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPosts(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_PostsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -170,6 +192,16 @@ def add_PostsServiceServicer_to_server(servicer, server):
                     servicer.GetPostComments,
                     request_deserializer=posts__pb2.GetPostCommentsRequest.FromString,
                     response_serializer=posts__pb2.ComentsList.SerializeToString,
+            ),
+            'ListPostsIds': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListPostsIds,
+                    request_deserializer=posts__pb2.Empty.FromString,
+                    response_serializer=posts__pb2.PostsIdsList.SerializeToString,
+            ),
+            'GetPosts': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPosts,
+                    request_deserializer=posts__pb2.GetPostsRequest.FromString,
+                    response_serializer=posts__pb2.PostList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -388,6 +420,60 @@ class PostsService(object):
             '/posts.PostsService/GetPostComments',
             posts__pb2.GetPostCommentsRequest.SerializeToString,
             posts__pb2.ComentsList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListPostsIds(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/posts.PostsService/ListPostsIds',
+            posts__pb2.Empty.SerializeToString,
+            posts__pb2.PostsIdsList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetPosts(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/posts.PostsService/GetPosts',
+            posts__pb2.GetPostsRequest.SerializeToString,
+            posts__pb2.PostList.FromString,
             options,
             channel_credentials,
             insecure,

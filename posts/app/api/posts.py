@@ -17,11 +17,10 @@ logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s -
 
 
 class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
-    
-    
+
     async def CreatePost(self, request, context):
         logging.info(f"Received message: {request}")
-        
+
         payload = sc.CreatePost(
             owner_id=request.owner_id,
             title=request.title,
@@ -30,8 +29,8 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
         )
 
         logging.info(f"Payload: {payload}")
-        
-        async with get_db() as session:  
+
+        async with get_db() as session:
             new_post = await PostsDB.add_post(payload, session)
             print("NEW POST::", new_post)
             new_post = post_to_grpc(new_post)
@@ -39,15 +38,14 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
         response = posts_pb2.PostResponse(post=new_post)
         return response
 
-
     async def GetPost(self, request, context):
         logging.info(f"Received message: {request}")
-        
+
         payload = sc.GetPost(
             post_id=request.post_id,
             owner_id=request.owner_id
         )
-        async with get_db() as session:  
+        async with get_db() as session:
             post = await PostsDB.get_post(payload, session)
             if post is None:
                 print("Post not found")
@@ -60,16 +58,15 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             response = posts_pb2.PostResponse(post=post)
             return response
 
-
     async def ListPosts(self, request, context):
         logging.info(f"Received message: {request}")
-        
+
         payload = sc.ListPosts(
             owner_id=request.owner_id,
             page=request.page,
             per_page=request.per_page
         )
-        async with get_db() as session:  
+        async with get_db() as session:
             posts = await PostsDB.list_posts(payload, session)
             if posts is None:
                 print("Posts not found")
@@ -77,37 +74,35 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             posts = [post_to_grpc(post) for post in posts]
             response = posts_pb2.PostList(posts=posts)
             return response
-        
 
     async def UpdatePost(self, request, context):
         logging.info(f"Received message: {request}")
-        
+
         post = await check_edit_permission(request, context)
-        
+
         payload_update = sc.UpdatePost(
             title=request.title,
             description=request.description,
             private=request.private
         )
 
-        async with get_db() as session:  
-            updated_post = await PostsDB.update_post(payload_update,  int(request.post_id), session)
+        async with get_db() as session:
+            updated_post = await PostsDB.update_post(payload_update, int(request.post_id), session)
             post = post_to_grpc(updated_post)
             response = posts_pb2.PostResponse(post=post)
             return response
 
-
     async def DeletePost(self, request, context):
         logging.info(f"Received message: {request}")
-        
+
         post = await check_edit_permission(request, context)
 
-        async with get_db() as session:  
+        async with get_db() as session:
             post = await PostsDB.delete_post(int(request.post_id), session)
             post = post_to_grpc(post)
             response = posts_pb2.PostResponse(post=post)
             return response
-        
+
     async def LikePost(self, request, context):
         logging.info(f"Received message: {request}")
 
@@ -119,11 +114,9 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
         # валидация существует ли пост -> поста нет
         # лайкал ли этот юзер этот пост уже ранее -> ничего не делать
 
-
-        async with get_db() as session:  
+        async with get_db() as session:
             await PostsDB.like_post(payload, session)
             return empty_pb2.Empty()
-        
 
     async def CreateComment(self, request, context):
         logging.info(f"Received message: {request}")
@@ -136,10 +129,10 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
 
         # валидация существует ли пост -> поста нет
 
-        async with get_db() as session:  
+        async with get_db() as session:
             await PostsDB.create_comment(payload, session)
             return empty_pb2.Empty()
-        
+
     async def GetPostComments(self, request, context):
         logging.info(f"Received message: {request}")
 
@@ -149,7 +142,7 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             per_page=request.per_page
         )
 
-        async with get_db() as session:  
+        async with get_db() as session:
             comments = await PostsDB.list_comments(payload, session)
             if comments is None:
                 print("Posts not found")
@@ -158,14 +151,30 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             response = posts_pb2.ComentsList(comments=comments)
             return response
 
+    async def ListPostsIds(self, request, context):
+        logging.info(f"Received message: {request}")
 
+        async with get_db() as session:
+            post_ids = await PostsDB.list_posts_ids(session)
+            response = posts_pb2.PostsIdsList(post_ids=post_ids)
+            return response
+
+    async def GetPosts(self, request, context):
+        logging.info(f"Received message: {request}")
+
+        async with get_db() as session:
+            posts = await PostsDB.get_posts(request.post_ids, session)
+            posts = [post_to_grpc(post) for post in posts]
+            response = posts_pb2.PostList(posts=posts)
+            return response
+        
 
 async def check_edit_permission(request, context):
     payload = sc.GetPost(
         post_id=request.post_id,
         owner_id=request.owner_id
     )
-    async with get_db() as session:  
+    async with get_db() as session:
         post = await PostsDB.get_post(payload, session)
         if post is None:
             print("Post not found")
@@ -175,6 +184,7 @@ async def check_edit_permission(request, context):
             print("You don't have permission to access this post")
             await context.abort(grpc.StatusCode.PERMISSION_DENIED, f"You don't have permission to access this post")
         return post
+    
 
 
 @asynccontextmanager
