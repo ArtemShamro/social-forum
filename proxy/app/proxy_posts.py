@@ -84,7 +84,6 @@ async def list_posts(request: Request, page: int = 1, per_page: int = 10):
     user_id = await check_login_or_zero(request)
 
     print("LIST POSTS")
-    print(request)
 
     grpc_request = posts_pb2.ListPostsRequest(
         owner_id=user_id,
@@ -98,10 +97,11 @@ async def list_posts(request: Request, page: int = 1, per_page: int = 10):
         try:
             grpc_response = await stub.ListPosts(grpc_request)
             posts = grpc_response.posts
+            total_count = grpc_response.total_count
             json_str = [MessageToJson(
                 post, always_print_fields_with_no_presence=True) for post in posts]
             json_dict = [json.loads(post) for post in json_str]
-            return json_dict
+            return {"posts": json_dict, "total_count": total_count}
         except grpc.RpcError as e:
             return {'message': e.details()}
 
@@ -111,8 +111,8 @@ async def delete_post(request: Request, payload: sc.DeletePostRequest):
 
     user_id = await check_login(request)
 
-    print("DELETE POST")
-    print(request)
+    # print("DELETE POST")
+    # print(request)
 
     grpc_request = posts_pb2.DeletePostRequest(
         owner_id=user_id,
@@ -139,7 +139,7 @@ async def update_post(request: Request, payload: sc.UpdatePostRequest):
 
     user_id = await check_login(request)
 
-    print("UPDATE POST")
+    # print("UPDATE POST")
 
     grpc_request = posts_pb2.UpdatePostRequest(
         owner_id=user_id,
@@ -170,8 +170,8 @@ async def like_post(request: Request, post_id: int = 1,):
 
     user_id = await check_login(request)
 
-    print("LIKE POST")
-    print("types :", type(post_id), type(user_id))
+    # print("LIKE POST")
+    # print("types :", type(post_id), type(user_id))
     grpc_request = posts_pb2.LikePostRequest(
         post_id=post_id,
         user_id=user_id
@@ -193,8 +193,8 @@ async def create_comment(request: Request, payload: sc.CreateCommentRequest):
 
     user_id = await check_login(request)
 
-    print("CREATE COMMENT")
-    print(payload)
+    # print("CREATE COMMENT")
+    # print(payload)
 
     grpc_request = posts_pb2.CreateCommentRequest(
         post_id=payload.post_id,
@@ -216,7 +216,7 @@ async def create_comment(request: Request, payload: sc.CreateCommentRequest):
 @posts.get("/list_comments")
 async def list_comments(request: Request, post_id: int, page: int = 1, per_page: int = 10):
 
-    print("LIST COMMENTS")
+    # print("LIST COMMENTS")
 
     grpc_request = posts_pb2.GetPostCommentsRequest(
         post_id=post_id,
@@ -242,8 +242,8 @@ async def list_comments(request: Request, post_id: int, page: int = 1, per_page:
 @posts.get("/list_posts_ids")
 async def list_posts_ids(request: Request):
 
-    print("LIST POSTS IDS")
-    print(request)
+    # print("LIST POSTS IDS")
+    # print(request)
 
     grpc_request = posts_pb2.Empty()
 

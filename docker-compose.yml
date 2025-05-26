@@ -144,7 +144,7 @@ services:
     ports:
       - "13500:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U movie_db_username -d movie_db_dev"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -177,7 +177,7 @@ services:
     ports:
       - "13501:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U posts_db_username -d posts_db_dev"]
       interval: 5s
       timeout: 5s
       retries: 5

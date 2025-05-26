@@ -7,3 +7,7 @@ header {
   border-bottom: 1px solid #ccc;
   background: #fafafa;
 }
+
+.header-logo {
+  cursor: pointer;
+}

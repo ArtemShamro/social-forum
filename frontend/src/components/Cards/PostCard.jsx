@@ -8,7 +8,8 @@ export default function PostCard({ post }) {
   return (
     <div
       className={styles.card}
-      onClick={() => router(`/post/${post.postId}`, { replace: true })}
+      onClick={() => router(`/post/${post.postId}`)}
+      style={{ cursor: 'pointer' }}
     >
       <h2 className={styles.title}>
         {post.postId} {post.title}

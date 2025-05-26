@@ -5,6 +5,7 @@ export async function ListPosts({ page, perPage }) {
     const response = await api.get(
       `/posts/list_posts?page=${page}&per_page=${perPage}`
     );
+    console.log("RESPONSE:", response.data);
     return response.data;
   } catch (error) {
     console.error(error);

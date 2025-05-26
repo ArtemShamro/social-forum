@@ -13,7 +13,14 @@ export default function PostsSection() {
   useEffect(() => {
     const fetchPosts = async () => {
       const data = await ListPosts({ page: currentPage, perPage: pageSize });
-      setPosts(data || []);
+      if (data && Array.isArray(data.posts)) {
+        setPosts(data.posts);
+        setTotalPosts(data.total_count || 0);
+      } else {
+        setPosts([]);
+        setTotalPosts(0);
+        console.error("API response for listing posts is not in the expected format:", data);
+      }
     };
     fetchPosts();
   }, [currentPage, pageSize]);
@@ -37,7 +44,6 @@ export default function PostsSection() {
           current={currentPage}
           pageSize={pageSize}
           total={totalPosts}
-          showQuickJumper
           showSizeChanger
           pageSizeOptions={["5", "10", "20", "50"]}
           onChange={(page, size) => {

@@ -67,12 +67,12 @@ class PostsServicer(posts_pb2_grpc.PostsServiceServicer):
             per_page=request.per_page
         )
         async with get_db() as session:
-            posts = await PostsDB.list_posts(payload, session)
+            posts, total_count = await PostsDB.list_posts(payload, session)
             if posts is None:
                 print("Posts not found")
                 await context.abort(grpc.StatusCode.NOT_FOUND, f"Posts with owner_id {request.owner_id} not found")
             posts = [post_to_grpc(post) for post in posts]
-            response = posts_pb2.PostList(posts=posts)
+            response = posts_pb2.PostList(posts=posts, total_count=total_count)
             return response
 
     async def UpdatePost(self, request, context):

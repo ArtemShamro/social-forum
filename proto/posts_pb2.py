@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bposts.proto\x12\x05posts\x1a\x1bgoogle/protobuf/empty.proto\"\x86\x01\n\x04Post\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\x12\x12\n\ncreated_at\x18\x06 \x01(\t\x12\x12\n\nupdated_at\x18\x07 \x01(\t\"&\n\x08PostList\x12\x1a\n\x05posts\x18\x01 \x03(\x0b\x32\x0b.posts.Post\")\n\x0cPostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"Z\n\x11\x43reatePostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07private\x18\x04 \x01(\x08\"6\n\x11\x44\x65letePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\"3\n\x0eGetPostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0f\n\x07post_id\x18\x02 \x01(\t\"k\n\x11UpdatePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\"/\n\x12\x44\x65letePostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"D\n\x10ListPostsRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0c\n\x04page\x18\x02 \x01(\x05\x12\x10\n\x08per_page\x18\x03 \x01(\x05\"3\n\x0fLikePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\t\"I\n\x14\x43reateCommentRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t\"I\n\x16GetPostCommentsRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0c\n\x04page\x18\x02 \x01(\x05\x12\x10\n\x08per_page\x18\x03 \x01(\x05\"/\n\x0b\x43omentsList\x12 \n\x08\x63omments\x18\x01 \x03(\x0b\x32\x0e.posts.Comment\"d\n\x07\x43omment\x12\x12\n\ncomment_id\x18\x01 \x01(\x05\x12\x0f\n\x07post_id\x18\x02 \x01(\x05\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x0f\n\x07\x63omment\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\" \n\x0cPostsIdsList\x12\x10\n\x08post_ids\x18\x01 \x03(\x05\"\x07\n\x05\x45mpty\"#\n\x0fGetPostsRequest\x12\x10\n\x08post_ids\x18\x01 \x03(\x05\x32\xe5\x04\n\x0cPostsService\x12=\n\nCreatePost\x12\x18.posts.CreatePostRequest\x1a\x13.posts.PostResponse\"\x00\x12\x35\n\x07GetPost\x12\x15.posts.GetPostRequest\x1a\x13.posts.PostResponse\x12;\n\nUpdatePost\x12\x18.posts.UpdatePostRequest\x1a\x13.posts.PostResponse\x12;\n\nDeletePost\x12\x18.posts.DeletePostRequest\x1a\x13.posts.PostResponse\x12\x35\n\tListPosts\x12\x17.posts.ListPostsRequest\x1a\x0f.posts.PostList\x12:\n\x08LikePost\x12\x16.posts.LikePostRequest\x1a\x16.google.protobuf.Empty\x12\x44\n\rCreateComment\x12\x1b.posts.CreateCommentRequest\x1a\x16.google.protobuf.Empty\x12\x44\n\x0fGetPostComments\x12\x1d.posts.GetPostCommentsRequest\x1a\x12.posts.ComentsList\x12\x31\n\x0cListPostsIds\x12\x0c.posts.Empty\x1a\x13.posts.PostsIdsList\x12\x33\n\x08GetPosts\x12\x16.posts.GetPostsRequest\x1a\x0f.posts.PostListb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bposts.proto\x12\x05posts\x1a\x1bgoogle/protobuf/empty.proto\"\x86\x01\n\x04Post\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\x12\x12\n\ncreated_at\x18\x06 \x01(\t\x12\x12\n\nupdated_at\x18\x07 \x01(\t\";\n\x08PostList\x12\x1a\n\x05posts\x18\x01 \x03(\x0b\x32\x0b.posts.Post\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\")\n\x0cPostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"Z\n\x11\x43reatePostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07private\x18\x04 \x01(\x08\"6\n\x11\x44\x65letePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\"3\n\x0eGetPostRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0f\n\x07post_id\x18\x02 \x01(\t\"k\n\x11UpdatePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07private\x18\x05 \x01(\x08\"/\n\x12\x44\x65letePostResponse\x12\x19\n\x04post\x18\x01 \x01(\x0b\x32\x0b.posts.Post\"D\n\x10ListPostsRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x0c\n\x04page\x18\x02 \x01(\x05\x12\x10\n\x08per_page\x18\x03 \x01(\x05\"3\n\x0fLikePostRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\t\"I\n\x14\x43reateCommentRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t\"I\n\x16GetPostCommentsRequest\x12\x0f\n\x07post_id\x18\x01 \x01(\x05\x12\x0c\n\x04page\x18\x02 \x01(\x05\x12\x10\n\x08per_page\x18\x03 \x01(\x05\"/\n\x0b\x43omentsList\x12 \n\x08\x63omments\x18\x01 \x03(\x0b\x32\x0e.posts.Comment\"d\n\x07\x43omment\x12\x12\n\ncomment_id\x18\x01 \x01(\x05\x12\x0f\n\x07post_id\x18\x02 \x01(\x05\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x0f\n\x07\x63omment\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\" \n\x0cPostsIdsList\x12\x10\n\x08post_ids\x18\x01 \x03(\x05\"\x07\n\x05\x45mpty\"#\n\x0fGetPostsRequest\x12\x10\n\x08post_ids\x18\x01 \x03(\x05\x32\xe5\x04\n\x0cPostsService\x12=\n\nCreatePost\x12\x18.posts.CreatePostRequest\x1a\x13.posts.PostResponse\"\x00\x12\x35\n\x07GetPost\x12\x15.posts.GetPostRequest\x1a\x13.posts.PostResponse\x12;\n\nUpdatePost\x12\x18.posts.UpdatePostRequest\x1a\x13.posts.PostResponse\x12;\n\nDeletePost\x12\x18.posts.DeletePostRequest\x1a\x13.posts.PostResponse\x12\x35\n\tListPosts\x12\x17.posts.ListPostsRequest\x1a\x0f.posts.PostList\x12:\n\x08LikePost\x12\x16.posts.LikePostRequest\x1a\x16.google.protobuf.Empty\x12\x44\n\rCreateComment\x12\x1b.posts.CreateCommentRequest\x1a\x16.google.protobuf.Empty\x12\x44\n\x0fGetPostComments\x12\x1d.posts.GetPostCommentsRequest\x1a\x12.posts.ComentsList\x12\x31\n\x0cListPostsIds\x12\x0c.posts.Empty\x1a\x13.posts.PostsIdsList\x12\x33\n\x08GetPosts\x12\x16.posts.GetPostsRequest\x1a\x0f.posts.PostListb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,37 +35,37 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_POST']._serialized_start=52
   _globals['_POST']._serialized_end=186
   _globals['_POSTLIST']._serialized_start=188
-  _globals['_POSTLIST']._serialized_end=226
-  _globals['_POSTRESPONSE']._serialized_start=228
-  _globals['_POSTRESPONSE']._serialized_end=269
-  _globals['_CREATEPOSTREQUEST']._serialized_start=271
-  _globals['_CREATEPOSTREQUEST']._serialized_end=361
-  _globals['_DELETEPOSTREQUEST']._serialized_start=363
-  _globals['_DELETEPOSTREQUEST']._serialized_end=417
-  _globals['_GETPOSTREQUEST']._serialized_start=419
-  _globals['_GETPOSTREQUEST']._serialized_end=470
-  _globals['_UPDATEPOSTREQUEST']._serialized_start=472
-  _globals['_UPDATEPOSTREQUEST']._serialized_end=579
-  _globals['_DELETEPOSTRESPONSE']._serialized_start=581
-  _globals['_DELETEPOSTRESPONSE']._serialized_end=628
-  _globals['_LISTPOSTSREQUEST']._serialized_start=630
-  _globals['_LISTPOSTSREQUEST']._serialized_end=698
-  _globals['_LIKEPOSTREQUEST']._serialized_start=700
-  _globals['_LIKEPOSTREQUEST']._serialized_end=751
-  _globals['_CREATECOMMENTREQUEST']._serialized_start=753
-  _globals['_CREATECOMMENTREQUEST']._serialized_end=826
-  _globals['_GETPOSTCOMMENTSREQUEST']._serialized_start=828
-  _globals['_GETPOSTCOMMENTSREQUEST']._serialized_end=901
-  _globals['_COMENTSLIST']._serialized_start=903
-  _globals['_COMENTSLIST']._serialized_end=950
-  _globals['_COMMENT']._serialized_start=952
-  _globals['_COMMENT']._serialized_end=1052
-  _globals['_POSTSIDSLIST']._serialized_start=1054
-  _globals['_POSTSIDSLIST']._serialized_end=1086
-  _globals['_EMPTY']._serialized_start=1088
-  _globals['_EMPTY']._serialized_end=1095
-  _globals['_GETPOSTSREQUEST']._serialized_start=1097
-  _globals['_GETPOSTSREQUEST']._serialized_end=1132
-  _globals['_POSTSSERVICE']._serialized_start=1135
-  _globals['_POSTSSERVICE']._serialized_end=1748
+  _globals['_POSTLIST']._serialized_end=247
+  _globals['_POSTRESPONSE']._serialized_start=249
+  _globals['_POSTRESPONSE']._serialized_end=290
+  _globals['_CREATEPOSTREQUEST']._serialized_start=292
+  _globals['_CREATEPOSTREQUEST']._serialized_end=382
+  _globals['_DELETEPOSTREQUEST']._serialized_start=384
+  _globals['_DELETEPOSTREQUEST']._serialized_end=438
+  _globals['_GETPOSTREQUEST']._serialized_start=440
+  _globals['_GETPOSTREQUEST']._serialized_end=491
+  _globals['_UPDATEPOSTREQUEST']._serialized_start=493
+  _globals['_UPDATEPOSTREQUEST']._serialized_end=600
+  _globals['_DELETEPOSTRESPONSE']._serialized_start=602
+  _globals['_DELETEPOSTRESPONSE']._serialized_end=649
+  _globals['_LISTPOSTSREQUEST']._serialized_start=651
+  _globals['_LISTPOSTSREQUEST']._serialized_end=719
+  _globals['_LIKEPOSTREQUEST']._serialized_start=721
+  _globals['_LIKEPOSTREQUEST']._serialized_end=772
+  _globals['_CREATECOMMENTREQUEST']._serialized_start=774
+  _globals['_CREATECOMMENTREQUEST']._serialized_end=847
+  _globals['_GETPOSTCOMMENTSREQUEST']._serialized_start=849
+  _globals['_GETPOSTCOMMENTSREQUEST']._serialized_end=922
+  _globals['_COMENTSLIST']._serialized_start=924
+  _globals['_COMENTSLIST']._serialized_end=971
+  _globals['_COMMENT']._serialized_start=973
+  _globals['_COMMENT']._serialized_end=1073
+  _globals['_POSTSIDSLIST']._serialized_start=1075
+  _globals['_POSTSIDSLIST']._serialized_end=1107
+  _globals['_EMPTY']._serialized_start=1109
+  _globals['_EMPTY']._serialized_end=1116
+  _globals['_GETPOSTSREQUEST']._serialized_start=1118
+  _globals['_GETPOSTSREQUEST']._serialized_end=1153
+  _globals['_POSTSSERVICE']._serialized_start=1156
+  _globals['_POSTSSERVICE']._serialized_end=1769
 # @@protoc_insertion_point(module_scope)

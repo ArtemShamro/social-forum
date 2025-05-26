@@ -13,7 +13,10 @@ message Post {
   string updated_at = 7;
 }
 
-message PostList { repeated Post posts = 1; }
+message PostList {
+  repeated Post posts = 1;
+  int32 total_count = 2;
+}
 
 message PostResponse { Post post = 1; }
 

@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <header>
-      <h3 onClick={() => router("/", { replace: true })}>My new header</h3>
+      <h3 className="header-logo" onClick={() => router("/", { replace: true })}>My new header</h3>
 
       <span>
         {!userId && <UnregistredUserBlock />}

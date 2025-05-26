@@ -6,10 +6,31 @@
 }
 
 .card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  margin-bottom: 1.5rem; /* Add some space below the card */
+}
+
+.staticInfo {
+  background-color: #f0f2f5; /* Light grey background */
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem; /* Space below the static info */
+  border: 1px solid #d9d9d9; /* Subtle border */
+}
+
+.staticInfo p {
+  margin-bottom: 0.5rem; /* Space between paragraphs */
+  font-size: 1rem;
+  color: #595959; /* Darker text for readability */
+}
+
+.staticInfo strong {
+  color: #262626; /* Even darker for labels */
 }
 
 .form {
   max-width: 500px;
   margin: 0 auto;
+  padding-top: 1rem; /* Add some padding above the form */
 }

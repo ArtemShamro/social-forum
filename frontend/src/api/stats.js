@@ -33,12 +33,3 @@ export async function GetPostStats(postId, targetType) {
   console.log("api function GetPostStat:", postId, res.data);
   return res.data;
 }
-
-export async function LikePost(postId) {
-  // Adjust the endpoint and method as needed
-  return fetch(`/posts/like`, {
-    method: "POST",
-    body: JSON.stringify({ post_id: postId }),
-    headers: { "Content-Type": "application/json" },
-  });
-}

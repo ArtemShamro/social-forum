@@ -1,6 +1,6 @@
 from fastapi import Depends
 from app.api import schemas
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, func
 import app.api.models as db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.db import get_db
@@ -40,10 +40,17 @@ class PostsDB:
                 db.Posts.private == False)
         ).order_by(db.Posts.created_at.desc())
 
+        # Get total count before applying limit and offset
+        total_count_query = select(func.count()).select_from(query.subquery())
+        total_count_result = await session.execute(total_count_query)
+        total_count = total_count_result.scalar_one()
+
         query = query.offset((payload.page - 1) * payload.per_page).limit(payload.per_page)
 
         result = await session.execute(query)
-        return result.scalars().all()
+        posts = result.scalars().all()
+
+        return posts, total_count
 
     @classmethod
     async def update_post(cls, payload: schemas.UpdatePost, id: int,

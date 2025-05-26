@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 async def get_count(request: Request, payload: sc.GetCountRequest):
     user_id = await check_login(request)
 
-    print("GET COUNT")
-    print(payload)
+    # print("GET COUNT")
+    # print(payload)
 
     grpc_request = stats_pb2.GetCountRequest(
         post_id=payload.post_id,
@@ -43,8 +43,8 @@ async def get_count(request: Request, payload: sc.GetCountRequest):
 @stats.get("/get_post_stats")
 async def get_post_stats(request: Request, post_id: int):
 
-    print("GET POST STATS")
-    print(post_id)
+    # print("GET POST STATS")
+    # print(post_id)
 
     grpc_request = stats_pb2.GetPostStatsRequest(
         post_id=post_id,
@@ -64,8 +64,8 @@ async def get_post_stats(request: Request, post_id: int):
 async def get_dynamics(request: Request, payload: sc.GetDynamicsRequest):
     user_id = await check_login(request)
 
-    print("GET DYNAMICS")
-    print(payload)
+    # print("GET DYNAMICS")
+    # print(payload)
 
     grpc_request = stats_pb2.GetDynamicsRequest(
         post_id=payload.post_id,
@@ -88,8 +88,8 @@ async def get_dynamics(request: Request, payload: sc.GetDynamicsRequest):
 
 @stats.get("/get_top_posts")
 async def get_top_posts(request: Request, target_type: str, limit: int = 10):
-    print("GET TOP POSTS", target_type)
-    print(f"Target Type: {target_type}, Limit: {limit}")
+    # print("GET TOP POSTS", target_type)
+    # print(f"Target Type: {target_type}, Limit: {limit}")
 
     grpc_request = stats_pb2.GetTopPostsRequest(
         targetType=target_type,
@@ -124,7 +124,7 @@ async def get_top_posts(request: Request, target_type: str, limit: int = 10):
                             "title": post.title,
                             "value": id_to_value[int(post.post_id)]
                         })
-                    print("Proxy stats get top posts response", response)
+                    # print("Proxy stats get top posts response", response)
                     return response
                 except grpc.RpcError as e:
                     return {"message": e.details()}
@@ -135,8 +135,8 @@ async def get_top_posts(request: Request, target_type: str, limit: int = 10):
 
 @stats.get("/get_top_users")
 async def get_top_users(request: Request, target_type: str, limit: int = 10):
-    print("GET TOP USERS", target_type)
-    print(f"Target Type: {target_type}, Limit: {limit}")
+    # print("GET TOP USERS", target_type)
+    # print(f"Target Type: {target_type}, Limit: {limit}")
 
     grpc_request = stats_pb2.GetTopUsersRequest(
         targetType=target_type,
@@ -151,11 +151,11 @@ async def get_top_users(request: Request, target_type: str, limit: int = 10):
             users_data = list(grpc_response.items)
             id_to_value = {item.id: item.value for item in users_data}
             user_ids = list(id_to_value.keys())
-            print(f"Proxy stats get top users: {user_ids}")
+            # print(f"Proxy stats get top users: {user_ids}")
 
             # get user info from auth service
             async with httpx.AsyncClient() as client:
-                print("Proxy stats get top users", users_data)
+                # print("Proxy stats get top users", users_data)
                 response = await client.post(
                     f"{AUTH_URL}/get_users",
                     json={"user_ids": user_ids}
@@ -163,7 +163,7 @@ async def get_top_users(request: Request, target_type: str, limit: int = 10):
                 response_data = response.json()
                 for item in response_data:
                     item["value"] = id_to_value[item["id"]]
-                print("Proxy stats get top users response", response_data)
+                # print("Proxy stats get top users response", response_data)
                 return response_data
 
         except grpc.RpcError as e:
