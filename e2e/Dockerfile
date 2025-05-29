@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 WORKDIR /app
-COPY requirements.txt .
+COPY ./e2e/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY e2e/tests/ /app/tests/
