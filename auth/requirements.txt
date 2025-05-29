@@ -13,3 +13,4 @@ python-jose
 alembic
 pydantic-settings
 pydantic[email]
+pact-python

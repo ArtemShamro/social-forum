@@ -12,6 +12,23 @@ services:
   #     - default
 
   # Zookeeper for Kafka
+  e2e-tests:
+    build:
+      context: .
+      dockerfile: ./e2e/Dockerfile
+    depends_on:
+      proxy:
+        condition: service_healthy
+      auth:
+        condition: service_healthy
+      kafka-setup:
+        condition: service_completed_successfully
+    environment:
+      AUTH_URL: "http://auth:8000"
+      PROXY_URL: "http://proxy:8000"
+    networks:
+      - default
+      
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.0
     container_name: zookeeper
