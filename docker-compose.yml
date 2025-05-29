@@ -28,7 +28,7 @@ services:
       PROXY_URL: "http://proxy:8000"
     networks:
       - default
-      
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.0
     container_name: zookeeper
@@ -149,6 +149,11 @@ services:
     depends_on:
       movie_db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   movie_db:
     image: postgres:12.1-alpine
@@ -182,6 +187,11 @@ services:
     depends_on:
       posts_db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   posts_db:
     image: postgres:12.1-alpine

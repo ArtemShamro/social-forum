@@ -6,6 +6,7 @@ COPY ./proxy/requirements.txt /app/requirements.txt
 
 RUN apt-get update \
     && apt-get install gcc -y \
+    && apt-get install -y curl \
     && apt-get clean
 
 RUN pip install --upgrade pip \

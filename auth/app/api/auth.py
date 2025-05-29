@@ -11,6 +11,9 @@ from pydantic import BaseModel
 
 auth = APIRouter()
 
+@auth.get("/health")
+async def health():
+    return {"status": "ok"}
 
 @auth.get('/all', response_model=List[User], summary="Получить список всех пользователей")
 async def all(session: AsyncSession = Depends(get_db)):

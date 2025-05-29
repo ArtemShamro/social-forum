@@ -7,6 +7,10 @@ def init_app(init_db=True):
     app = FastAPI(openapi_url="/api/v1/proxy/openapi.json",
                   docs_url="/api/v1/proxy/docs")
 
+    @app.get("/health")
+    async def health():
+        return {"status": "ok"}
+    
     origins = [
         "http://localhost.tiangolo.com",
         "https://localhost.tiangolo.com",
