@@ -26,9 +26,5 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
-      - name: Wait for services
-        run: |
-          docker compose exec -T kafka cub kafka-ready -b kafka:9092 1 40
-
       - name: Run E2E tests
         run: docker compose -f docker-compose.yml run --rm e2e-tests
