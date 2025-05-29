@@ -28,7 +28,6 @@ jobs:
 
       - name: Wait for services
         run: |
-          docker compose exec -T auth python -m app.wait_for_db
           docker compose exec -T kafka cub kafka-ready -b kafka:9092 1 40
 
       - name: Run E2E tests
