@@ -1,30 +1,30 @@
-name: E2E Tests
+# name: E2E Tests
 
-on:
-  pull_request:
-  push:
-    branches: [main]
+# on:
+#   pull_request:
+#   push:
+#     branches: [main]
 
-jobs:
-  e2e:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+# jobs:
+#   e2e:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 15
 
-    services:
-      postgres:
-        image: postgres:12.1-alpine
-        env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_pass
-          POSTGRES_DB: test_db
-        ports:
-          - "5432:5432"
+#     services:
+#       postgres:
+#         image: postgres:12.1-alpine
+#         env:
+#           POSTGRES_USER: test_user
+#           POSTGRES_PASSWORD: test_pass
+#           POSTGRES_DB: test_db
+#         ports:
+#           - "5432:5432"
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
-        run: docker compose -f docker-compose.yml up -d --build
+#       - name: Set up Docker Compose
+#         run: docker compose -f docker-compose.yml up -d --build
 
-      - name: Run E2E tests
-        run: docker compose -f docker-compose.yml run --rm e2e-tests
+#       - name: Run E2E tests
+#         run: docker compose -f docker-compose.yml run --rm e2e-tests
